@@ -9,7 +9,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="Home.jsp"><img src="img/logo.png" width="150px" height="80px"></a>
+                <a class="navbar-brand" href="home"><img src="img/logo.png" width="150px" height="80px"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -33,7 +33,7 @@
                         </li>
                     </ul>
 
-                    <form action="search" method="post" class="form-inline my-2 my-lg-0">
+                    <form action="#" method="post" class="form-inline my-2 my-lg-0">
                         <div class="input-group input-group-sm">
                             <input name="txt" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
                             <div class="input-group-append">
