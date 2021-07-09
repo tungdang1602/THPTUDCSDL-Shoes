@@ -1,30 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package control;
 
-import model.Category;
-import model.Product;
-import dao.ProductDAO;
-import dao.CategoryDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Trung
- */
-@WebServlet(name = "DetailControl", urlPatterns = {"/detail"})
-public class DetailControl extends HttpServlet {
-     /**
+@WebServlet(name = "SignupControl", urlPatterns = {"/signup"})
+public class SignupControl extends HttpServlet {
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -37,33 +25,22 @@ public class DetailControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        //Lay ID ve
-        String id = request.getParameter("ProductID");
-        
-        //Lay Message Out of Stock (neu co)
-        try {
-            String message = request.getParameter("message");
-            request.setAttribute("message", message);
-        } catch (Exception e) {
+
+        String username = request.getParameter("user");
+        String password = request.getParameter("pass");
+        String repass = request.getParameter("repass");
+
+        UserDAO dao = new UserDAO();
+
+        if (password.equals(repass)) {
+            dao.signUp(username, password);
+            request.setAttribute(username, "user");
+            request.setAttribute(password, "pass");
+            request.getRequestDispatcher("login").forward(request, response);
+        } else {
+            response.sendRedirect("Login.jsp");
         }
-        
-        //Goi toi DAO
-        ProductDAO dao = new ProductDAO();
-        Product p = dao.getProductByID(id);
-        
-        CategoryDAO CategoryDAO = new CategoryDAO();
-        List<Category> listC = CategoryDAO.getAllCategory();
-        
-        ProductDAO ProductDAO = new ProductDAO();
-        Product hot = ProductDAO.getHotProduct();
-        
-        //Day len JSP
-        request.setAttribute("allCategory", listC);
-        
-        request.setAttribute("hot", hot);
-        
-        request.setAttribute("detail", p);
-        request.getRequestDispatcher("Detail.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -104,4 +81,5 @@ public class DetailControl extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <img class="img-fluid" src="${hot.imageLink}" />
                     <h5 class="card-title">
-                        <a href="#">
+                        <a href="detail?ProductID=${hot.id}">
                             ${hot.name}
                         </a>
                     </h5>

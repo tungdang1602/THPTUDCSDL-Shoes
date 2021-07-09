@@ -111,6 +111,19 @@ public class ProductDAO extends DBConnecttion<Product> {
         }
         return list;
     }
+    public Product getProductByID(String id) { 
+        String query = "SELECT * FROM Product WHERE ProductID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return (new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5)));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
         

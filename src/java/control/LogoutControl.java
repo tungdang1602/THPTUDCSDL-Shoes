@@ -1,30 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package control;
 
-import model.Category;
-import model.Product;
-import dao.ProductDAO;
-import dao.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Trung
- */
-@WebServlet(name = "DetailControl", urlPatterns = {"/detail"})
-public class DetailControl extends HttpServlet {
-     /**
+@WebServlet(name = "LogoutControl", urlPatterns = {"/logout"})
+public class LogoutControl extends HttpServlet {
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -37,33 +25,11 @@ public class DetailControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        //Lay ID ve
-        String id = request.getParameter("ProductID");
-        
-        //Lay Message Out of Stock (neu co)
-        try {
-            String message = request.getParameter("message");
-            request.setAttribute("message", message);
-        } catch (Exception e) {
-        }
-        
-        //Goi toi DAO
-        ProductDAO dao = new ProductDAO();
-        Product p = dao.getProductByID(id);
-        
-        CategoryDAO CategoryDAO = new CategoryDAO();
-        List<Category> listC = CategoryDAO.getAllCategory();
-        
-        ProductDAO ProductDAO = new ProductDAO();
-        Product hot = ProductDAO.getHotProduct();
-        
-        //Day len JSP
-        request.setAttribute("allCategory", listC);
-        
-        request.setAttribute("hot", hot);
-        
-        request.setAttribute("detail", p);
-        request.getRequestDispatcher("Detail.jsp").forward(request, response);
+        //Xóa acc khỏi Session khi logout 
+        HttpSession session = request.getSession();
+        session.removeAttribute("acc");
+        //Redirect về home
+        response.sendRedirect("home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -104,4 +70,5 @@ public class DetailControl extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

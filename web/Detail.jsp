@@ -129,7 +129,6 @@
 
                     </div>
                 </div>
-                <jsp:include page="Right.jsp"/>
             </div>
         </div>
 

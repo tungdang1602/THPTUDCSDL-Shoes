@@ -28,11 +28,12 @@
                             <ol class="breadcrumb">
                                 <li style="margin-right: 20px"><a href="home">Home</a></li>
                                 <li style="margin-right: 20px">
-                                    <a class="btn btn-info btn-sm ml-3" href="#" style="height: 30px; padding-top: 2px">
+                                    <a class="btn btn-info btn-sm ml-3" href="show" style="height: 30px; padding-top: 2px">
                                         <i class="fa fa-shopping-cart"></i> Cart
+                                        <span class="badge badge-light">${c.countNumCart(sessionScope.acc.id)}</span>
                                 </a>
                             </li>
-                            
+                            <!--<li class="breadcrumb-item active" aria-current="page">${CateName}</li>-->
                         </ol>
                     </nav>
                 </div>
@@ -49,17 +50,17 @@
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card">
                                     <!--Product's image-->
-                                    <a href="#" title="View Product"><img class="card-img-top" src="${o.imageLink}" alt="Card image cap"></a>
+                                    <a href="detail?ProductID=${o.id}" title="View Product"><img class="card-img-top" src="${o.imageLink}" alt="Card image cap"></a>
                                     <div class="card-body">
-
-                                        <h4 class="card-title show_txt"><a href="#" title="View Product">${o.name}</a></h4>
+                                        
+                                        <h4 class="card-title show_txt"><a href="detail?ProductID=${o.id}" title="View Product">${o.name}</a></h4>
                                         <div class="row">
                                             <div class="col">
                                                 <!--Product's Price-->
                                                 <p class="btn btn-warning btn-block">${o.priceWithDot} VND</p>
                                             </div>
                                             <div class="col">
-                                                <a class="btn btn-info btn-block" style="color: white">Add to cart</a>
+                                                <a onclick="addCart(${o.id})" class="btn btn-info btn-block" style="color: white">Add to cart</a>
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +80,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
         </div>
 
         <jsp:include page="Footer.jsp"></jsp:include>
@@ -95,15 +95,12 @@
                                         //Sử dụng Ajax
                                         $.ajax({
                                             url: "/Shoes/paging",
-                                            type: "get", //send it through get method
+                                            type: "get",
                                             data: {
                                                 index: index,
                                                 CategoryID: CateID
                                             },
                                             success: function (responseData) {
-                                                //Trg hợp này: Có dữ liệu trả về -> responseData là dữ liệu trả về
-                                                //Dữ liệu trả về ko phải 1 List mà là từng khối <div>
-                                                //Bao quanh tất cả các khối <div> sản phẩm là 1 khối div "content" => sửa ở đây
                                                 document.getElementById("content").innerHTML = responseData;
                                             }
                                         });
