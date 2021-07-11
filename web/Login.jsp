@@ -17,7 +17,8 @@
        <title>Th?n Kinh Giày</title>
     </head>
     <body>
-        <div id="logreg-forms">
+        <div id="logreg-forms" >
+            <img  src="image/faviconLogo.png">
             <form class="form-signin" action="login" method="post">
                 <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
                 <p class="text-danger">${mess}</p>

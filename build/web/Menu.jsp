@@ -20,20 +20,20 @@
                             <a class="nav-link" href="#">Manager Account</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Manager Product</a>
+                            <a class="nav-link" href="manager">Manager Product</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Hello</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Logout</a>
+                            <a class="nav-link" href="logout">Logout</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="login">Login</a>
                         </li>
                     </ul>
 
-                    <form action="#" method="post" class="form-inline my-2 my-lg-0">
+                    <form action="search" method="post" class="form-inline my-2 my-lg-0">
                         <div class="input-group input-group-sm">
                             <input name="txt" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
                             <div class="input-group-append">

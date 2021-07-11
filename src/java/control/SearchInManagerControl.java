@@ -1,12 +1,11 @@
 package control;
 
-import model.Product;
-import model.Category;
-import model.Information;
-import dao.ProductDAO;
-import dao.InforDAO;
 import dao.CategoryDAO;
-
+import dao.ProductDAO;
+import dao.UserDAO;
+import model.Account;
+import model.Category;
+import model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,9 +14,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "SearchInManagerControl", urlPatterns = {"/searchInManager"})
+public class SearchInManagerControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,52 +31,25 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        //Call to DAOs
-        ProductDAO ProductDAO = new ProductDAO();
-        InforDAO InforDAO = new InforDAO();
+        String searchText = request.getParameter("text");
+        
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("acc"); 
+
+        ProductDAO dao = new ProductDAO();
+        
+        List<Product> listP = dao.searchProductInManager(searchText, a.getId());
+        
         CategoryDAO CategoryDAO = new CategoryDAO();
+        List<Category> listC = CategoryDAO.getAllCategory();
+        request.setAttribute("listC", listC);
         
-        List<Category> listC = CategoryDAO.getAllCategory(); //Get List Category
-        Product hot = ProductDAO.getHotProduct(); //Get First Product
-        Information infor = InforDAO.getInfor(); //Get Information
+        UserDAO UserDAO = new UserDAO();
+        List<Account> listS = UserDAO.getAllAccounts();
+        request.setAttribute("listS", listS);
         
-        String CategoryID = request.getParameter("CategoryID");
-        if (CategoryID == null) { 
-            CategoryID = "0";
-        }
-        request.setAttribute("CategoryID", CategoryID);
-        
-        int CID = Integer.parseInt(CategoryID);
-
-        String indexPage = request.getParameter("index");
-        if (indexPage == null) {
-            indexPage = "1";
-        }
-
-        int index = Integer.parseInt(indexPage);
-
-        int count = ProductDAO.countProductByCategory(CID);
-        int endPage = count / 6;
-        if (count % 6 != 0) {
-            endPage++;
-        }
-        
-        List<Product> list = ProductDAO.pagingByCategory(index, CID);
-        
-        //Set Data to JSP
-        request.setAttribute("allCategory", listC);
-        request.setAttribute("hot", hot);
-        request.setAttribute("infor", infor);
-        
-        request.setAttribute("listP", list); //List Product
-        request.setAttribute("end", endPage);
-        request.setAttribute("tag", index); //Page number
-        request.setAttribute("count", count); 
-        request.setAttribute("CateID", CID);
-        request.setAttribute("CateName", CategoryDAO.getCateNameByID(CID));
-        
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        request.setAttribute("list", listP);
+        request.getRequestDispatcher("Manager.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

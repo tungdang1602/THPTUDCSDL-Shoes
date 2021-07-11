@@ -139,7 +139,7 @@
                                                 var select_value = document.getElementById("select_id").value;
                                                 //Sử dụng Ajax
                                                 $.ajax({
-                                                    url: "/Shop/addMany",
+                                                    url: "/Shoes/addMany",
                                                     type: "get", //send it through get method
                                                     data: {
                                                         ProductID: ProductID,
