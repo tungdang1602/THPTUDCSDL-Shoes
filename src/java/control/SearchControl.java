@@ -48,34 +48,26 @@ public class SearchControl extends HttpServlet {
             Product last = ProductDAO.getFavoriteProduct(); //Get Last Product
             Information infor = InforDAO.getInfor(); //Get Information
 
-            //Paging By CategoryID
             String CategoryID = request.getParameter("CategoryID");
-            if (CategoryID == null) { //On Load: User hasn't choosen Category
+            if (CategoryID == null) { 
                 CategoryID = "0";
             }
-            //Set Category ID back on JSP
             request.setAttribute("CategoryID", CategoryID);
 
             int CID = Integer.parseInt(CategoryID);
 
-            //Get Page number from JSP
             String indexPage = request.getParameter("index");
             if (indexPage == null) {
-                //On load: Page 1
                 indexPage = "1";
             }
 
             int index = Integer.parseInt(indexPage);
 
-            //Count number of Product According to the Category -> Number of Pages
             int count = ProductDAO.countProductByCategory(CID);
             int endPage = count / 6;
             if (count % 6 != 0) {
-                //If the number of Product isn't divided by 3 -> Need 1 more Page
                 endPage++;
             }
-
-            //List of Product to Display after Paging by Category ID
             List<Product> listP = ProductDAO.searchProductByName(txtSearch);
 
             //Set Data to JSP

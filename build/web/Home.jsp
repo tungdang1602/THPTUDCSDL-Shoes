@@ -80,10 +80,13 @@
                         </ul>
                     </div>
                 </div>
+
+            </div>
         </div>
 
         <jsp:include page="Footer.jsp"></jsp:include>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script>
                                     function load(a_link, index, CateID) {
                                         var arr = document.getElementsByClassName('paging');
@@ -101,10 +104,52 @@
                                                 CategoryID: CateID
                                             },
                                             success: function (responseData) {
+                                                //Trg hợp này: Có dữ liệu trả về -> responseData là dữ liệu trả về
+                                                //Dữ liệu trả về ko phải 1 List mà là từng khối <div>
+                                                //Bao quanh tất cả các khối <div> sản phẩm là 1 khối div "content" => sửa ở đây
                                                 document.getElementById("content").innerHTML = responseData;
                                             }
                                         });
                                     }
-             </script>
+
+
+                                    function addCart(ProductID) {
+            <c:if test="${sessionScope.acc != null}">
+                                        //Sử dụng Ajax
+                                        $.ajax({
+                                            url: "/Shoes/addToCart",
+                                            type: "get",
+                                            data: {
+                                                ProductID: ProductID
+                                            },
+                                            success: function (message) {
+                                                alert(message);
+                                            },
+                                            error: function () {
+                                            }
+                                        });
+            </c:if>
+            <c:if test="${sessionScope.acc == null}">
+                                        location.href = "login";
+            </c:if>
+                                    }
+
+                                    function searchByName(param) {
+                                        var txtSearch = param.value;
+                                        $.ajax({
+                                            url: "/Shoes/searchAjax",
+                                            type: "get",
+                                            data: {
+                                                txt: txtSearch
+                                            },
+                                            success: function (data) {
+                                                var row = document.getElementById("content");
+                                                row.innerHTML = data;
+                                            },
+                                            error: function (xhr) {
+                                            }
+                                        });
+                                    }
+        </script>  
     </body>
 </html>

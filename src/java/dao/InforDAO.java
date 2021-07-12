@@ -16,7 +16,7 @@ public class InforDAO extends DBConnecttion<Information>{
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
-            while (rs.next()) { //Chỉ next 1 lần thôi -> chỉ cần return về object là xong
+            while (rs.next()) { 
                 return new Information(rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
